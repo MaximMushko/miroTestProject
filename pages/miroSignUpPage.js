@@ -1,4 +1,4 @@
-
+const EC = protractor.ExpectedConditions;
 class MiroSignUpPage {
 
     constructor() {
@@ -7,10 +7,15 @@ class MiroSignUpPage {
         this.userNameField = by.css('#name');
         this.emailField = by.css('#email');
         this.passwordField = by.css('#password');
-        this.erorrMessageLabel = by.css('');
-        this.passwordBar = by.css('');
+        this.emailErrorMessage = by.css('#emailError');
+        this.passwordErrorMessage = by.css('#passwordError');
+        this.userErrorMessage = by.css('#nameError');
+        this.termsError = by.css('#termsError')
+        this.passwordStatusBar = by.css('#password-hint > .signup__input-hint-bar-wrap')
+        this.passwordHint = by.css('#password-hint > #signup-form-password');
         this.termPolicyCheckBox = by.css('');
         this.miroNewsCheckBox = by.css('');
+        this.signInButton = by.css('.signup__submit')
     }
 
     getPageText(){
@@ -25,21 +30,30 @@ class MiroSignUpPage {
         return element(this.usserNameField).sendKeys(userName)
     }
 
-    enterEmailField(email) {
+    enterEmail(email) {
         return element(this.emailField).sendKeys(email)
     }
 
-    enterPassword(password) {
-        return element(this.passwordField).sendKeys(password);
+    async enterPassword(password) {
+        await element(this.passwordField).sendKeys(password);
+        await browser.wait(EC.visibilityOf(element(this.passwordStatusBar)), 2000)
     }
 
-    async getFiledsErrorMessages() {
-        const elements = element.all(this.erorrMessageLabel);
-        return Promise.all(elements.map(elem => elem.getText()));
+    getPasswordHint() {
+        return element(this.passwordHint).getText();
     }
 
-    getPasswordBar() {
-        return element(this.passwordBar).getText();
+    async getLoginFormErrors() {
+        return {
+            nameError: await element(this.userErrorMessage).getText(),
+            emailError: await element(this.emailErrorMessage).getText(),
+            passwordError: await element(this.passwordErrorMessage).getText(),
+            termsError: await element(this.termsError).getText()
+        }
+    }
+
+    clickSignUpButton() {
+        return element(this.signInButton).click();
     }
 }
 

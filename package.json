@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "protractor protractor.conf.js && npm run generate",
+    "test": "NODE_ENV=test protractor protractor.conf.js && npm run generate",
     "generate": "allure generate -c"
   },
   "keywords": [],
