@@ -20,6 +20,10 @@ Then start webdriver-manager by following command:
 
 <code>npm run start</code>
 
+webdriver-manager also can ask you to update drivers. In this case, please run:
+
+<code>webdriver-manager update</code>
+
 To run the tests execute command:
 
 <code>npm run test</code>
