@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test protractor protractor.conf.js && npm run generate",
-    "generate": "allure generate -c"
+    "generate": "cd ./out && allure generate -c",
+    "open": "cd ./out && allure open"
   },
   "keywords": [],
   "author": "",

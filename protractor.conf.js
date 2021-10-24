@@ -22,7 +22,18 @@ exports.config = {
         const reporter = new JasmineAllureReporter({
             resultsDir: "./out/allure-results"
         });
+
+        const allure = reporter.getInterface();
+
         jasmine.getEnv().addReporter(reporter);
+        jasmine.getEnv().afterEach(function(done) {
+            browser.takeScreenshot().then(function (png) {
+                allure.createAttachment('Screenshot', function () {
+                    return new Buffer(png, 'base64')
+                }, 'image/png')();
+                done();
+            })
+        })
     },
 
     // Options to be passed to Jasmine-node.
