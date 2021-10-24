@@ -18,6 +18,7 @@ exports.config = {
     specs: ['./tests/miroSignUpTest.js'],
 
     onPrepare: () => {
+        browser.waitForAngularEnabled(false)
         const reporter = new JasmineAllureReporter({
             resultsDir: "./out/allure-results"
         });

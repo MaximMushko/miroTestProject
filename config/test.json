@@ -2,9 +2,10 @@
     "testUser": "testuser",
     "password": "mytestpassword/1245?",
     "shortPassword": "1234",
-    "password8Sign": "aa1233547",
+    "password8Sign": "aa123354",
     "weekPassword": "12345568",
     "goodPassword": "aa1233547",
     "incorrectEmail": "test",
-    "correctEmail": ""
+    "correctEmail": "mmushko@cisco.com",
+    "testCode":"123456"
 }

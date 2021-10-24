@@ -8,13 +8,15 @@ class MiroSignUpPage {
         this.emailField = by.css('#email');
         this.passwordField = by.css('#password');
         this.emailErrorMessage = by.css('#emailError');
-        this.passwordErrorMessage = by.css('#passwordError');
+        this.passwordErrorMessage = by.css('.js-empty-password');
         this.userErrorMessage = by.css('#nameError');
         this.termsError = by.css('#termsError')
         this.passwordStatusBar = by.css('#password-hint > .signup__input-hint-bar-wrap')
         this.passwordHint = by.css('#password-hint > #signup-form-password');
-        this.termPolicyCheckBox = by.css('');
-        this.miroNewsCheckBox = by.css('');
+        this.termPolicyCheckBox = by.css('#signup-terms');
+        this.miroNewsCheckBox = by.css('#signup-subscribe');
+        this.termPolicyLabel = by.css('#signup-error-emptyTerms');
+        this.miroNewsLabel = by.css('#signup-subscribe-desc')
         this.signInButton = by.css('.signup__submit')
     }
 
@@ -27,7 +29,7 @@ class MiroSignUpPage {
     }
 
     enterUserName(userName) {
-        return element(this.usserNameField).sendKeys(userName)
+        return element(this.userNameField).sendKeys(userName)
     }
 
     enterEmail(email) {
@@ -50,6 +52,24 @@ class MiroSignUpPage {
             passwordError: await element(this.passwordErrorMessage).getText(),
             termsError: await element(this.termsError).getText()
         }
+    }
+
+    getMiroTermsLabel() {
+        return element(this.termPolicyLabel).getText();
+    }
+
+    getSubscribeToNewsLabel(){
+        return element(this.miroNewsLabel).getText();
+    }
+
+    clickMiroTermsCheckbox(){
+        const checkBoxElement = element(this.termPolicyCheckBox)
+        return browser.executeScript('arguments[0].click()', checkBoxElement.getWebElement());
+    }
+
+    clickSubscriveToNewsLabel(){
+        const checkBoxElement = element(this.miroNewsCheckBox)
+        return browser.executeScript('arguments[0].click()', checkBoxElement.getWebElement());
     }
 
     clickSignUpButton() {
