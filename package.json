@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "webdriver-manager start",
     "test": "NODE_ENV=test protractor protractor.conf.js && npm run generate",
     "generate": "cd ./out && allure generate -c",
     "open": "cd ./out && allure open"
