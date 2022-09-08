@@ -67,7 +67,7 @@ class MiroSignUpPage {
         return browser.executeScript('arguments[0].click()', checkBoxElement.getWebElement());
     }
 
-    clickSubscriveToNewsLabel(){
+    clickSubscribeToNewsLabel(){
         const checkBoxElement = element(this.miroNewsCheckBox)
         return browser.executeScript('arguments[0].click()', checkBoxElement.getWebElement());
     }

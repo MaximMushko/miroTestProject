@@ -133,7 +133,7 @@ describe('Tests for Sign Up at Miro functionality', () => {
     });
 
     describe('Positive tests for Sign Up page', () => {
-        it('Succesfully signUp case', async () => {
+        it('Successfully signUp case', async () => {
             const userName = config.get('testUser');
             const email = generateEmail('cisco', 'com');
             const password = config.get('password');
@@ -142,7 +142,7 @@ describe('Tests for Sign Up at Miro functionality', () => {
             await miroSignUpPage.enterEmail(email);
             await miroSignUpPage.enterPassword(password);
             await miroSignUpPage.clickMiroTermsCheckbox();
-            await miroSignUpPage.clickSubscriveToNewsLabel();
+            await miroSignUpPage.clickSubscribeToNewsLabel();
 
             await miroSignUpPage.clickSignUpButton();
 
@@ -157,9 +157,9 @@ describe('Tests for Sign Up at Miro functionality', () => {
             const enterCodeFieldIsDisplayed = await checkEmailPage.checkCodeInputBox();
             expect(enterCodeFieldIsDisplayed).to.be.true
 
-            const sendCodeAgailLabel = await checkEmailPage.getSendCodeAgainLabel();
+            const sendCodeAgainLabel = await checkEmailPage.getSendCodeAgainLabel();
 
-            expect(sendCodeAgailLabel).to.be.eql('Send code again or find more information in Help Center.')
+            expect(sendCodeAgainLabel).to.be.eql('Send code again or find more information in Help Center.')
             //we are not able to test the real code flow with a fake test email. It could be tested manually or by using special accaunt
         });
 
@@ -168,12 +168,11 @@ describe('Tests for Sign Up at Miro functionality', () => {
             const email = config.get('correctEmail');
             const password = config.get('password');
 
-
             await miroSignUpPage.enterUserName(userName);
             await miroSignUpPage.enterEmail(email);
             await miroSignUpPage.enterPassword(password);
             await miroSignUpPage.clickMiroTermsCheckbox();
-            await miroSignUpPage.clickSubscriveToNewsLabel();
+            await miroSignUpPage.clickSubscribeToNewsLabel();
 
             await miroSignUpPage.clickSignUpButton();
 
@@ -191,7 +190,7 @@ describe('Tests for Sign Up at Miro functionality', () => {
             await miroSignUpPage.enterEmail(email);
             await miroSignUpPage.enterPassword(password);
             await miroSignUpPage.clickMiroTermsCheckbox();
-            await miroSignUpPage.clickSubscriveToNewsLabel();
+            await miroSignUpPage.clickSubscribeToNewsLabel();
 
             await miroSignUpPage.clickSignUpButton();
 
@@ -202,7 +201,7 @@ describe('Tests for Sign Up at Miro functionality', () => {
             await checkEmailPage.enterCodeToInputBox(fakeCode)
 
             const codeErrorMessage = await checkEmailPage.getCodeErrorMessage();
-            expect(codeErrorMessage).to.be.eql('\'Enter a valid code.')
+            expect(codeErrorMessage).to.be.eql('Enter a valid code.')
         });
     });
 });

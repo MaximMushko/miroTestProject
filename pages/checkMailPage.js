@@ -36,8 +36,11 @@ class CheckMailPage {
         return element(this.attemptsExceededErrorMessage).getText();
     }
 
+    getContactUsLabel () {
+        return element.all(this.sendCodeAgainLabel).get(0).getText();
+    }
     getSendCodeAgainLabel(){
-        return element(this.sendCodeAgainLabel).getText();
+        return element.all(this.sendCodeAgainLabel).get(1).getText();
     }
 }
 
