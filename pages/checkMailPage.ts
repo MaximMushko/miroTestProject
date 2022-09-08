@@ -1,14 +1,14 @@
+import {by, protractor, element, browser} from "protractor";
+
 const EC = protractor.ExpectedConditions;
 
 class CheckMailPage {
-    constructor() {
-        this.pageTitle = by.css('.signup>h1');
-        this.pageText = by.css('.signup > .signup__subtitle-form');
-        this.codeInputBox = by.css('#code');
-        this.codeErrorMessage = by.css('#error-general')
-        this.attemptsExceededErrorMessage = by.css('#error-attemptsExceeded')
-        this.sendCodeAgainLabel = by.css('.signup__footer')
-    }
+    private pageTitle = by.css('.signup>h1');
+    private pageText = by.css('.signup > .signup__subtitle-form');
+    private codeInputBox = by.css('#code');
+    private codeErrorMessage = by.css('#error-general')
+    private attemptsExceededErrorMessage = by.css('#error-attemptsExceeded')
+    private sendCodeAgainLabel = by.css('.signup__footer')
 
     getPageTitle(){
         return element(this.pageTitle).getText();
@@ -22,7 +22,7 @@ class CheckMailPage {
         return element(this.codeInputBox).isDisplayed();
     }
 
-    enterCodeToInputBox(code) {
+    enterCodeToInputBox(code: string) {
         return element(this.codeInputBox).sendKeys(code);
     }
 
@@ -44,5 +44,4 @@ class CheckMailPage {
     }
 }
 
-
-module.exports = new CheckMailPage();
+export default CheckMailPage;

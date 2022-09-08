@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webdriver-manager start",
+    "compile": "tsc",
     "test": "NODE_ENV=test protractor protractor.conf.js && npm run generate",
     "generate": "cd ./out && allure generate -c",
     "open": "cd ./out && allure open"
@@ -13,10 +14,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/mocha": "^9.1.1",
     "allure-jasmine": "^2.0.0-beta.14",
     "config": "^3.3.6",
     "protractor": "^7.0.0",
-    "selenium-manager": "^0.4.3"
+    "selenium-manager": "^0.4.3",
+    "typescript": "3.8.3"
   },
   "devDependencies": {
     "allure-commandline": "^2.13.8",

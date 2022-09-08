@@ -1,9 +1,14 @@
-const chai = require('chai');
-const config = require('config');
-const miroSignUpPage = require('../pages/miroSignUpPage');
-const checkEmailPage = require('../pages/checkMailPage');
-const {generateEmail} = require('../utils/utils');
+import {browser} from "protractor";
+
+import chai from "chai";
+import config from "config";
+import MiroSignUpPage from '../pages/miroSignUpPage';
+import CheckEmailPage from '../pages/checkMailPage';
+import {generateEmail} from '../utils/utils';
 const { expect } = chai;
+
+const miroSignUpPage = new MiroSignUpPage();
+const checkEmailPage = new CheckEmailPage();
 
 describe('Tests for Sign Up at Miro functionality', () => {
 

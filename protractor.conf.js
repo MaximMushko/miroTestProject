@@ -15,7 +15,7 @@ exports.config = {
     // Spec patterns are relative to the configuration file location passed
     // to protractor (in this example conf.js).
     // They may include glob patterns.
-    specs: ['./tests/miroSignUpTest.js'],
+    specs: ['./out/tests/miroSignUpTest.js'],
 
     onPrepare: () => {
         browser.waitForAngularEnabled(false)
