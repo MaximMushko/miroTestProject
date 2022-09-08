@@ -18,21 +18,21 @@ describe('Tests for Sign Up at Miro functionality', () => {
 
     describe('Check Labels on Miro Sign Up page tests', () => {
         it('Check text and subtext on sign up page', async () => {
-            const text = await miroSignUpPage.getPageText();
-            const subText = await miroSignUpPage.getPageSubText();
+            const text = await miroSignUpPage.pageText.getText();
+            const subText = await miroSignUpPage.pageSubText.getText();
 
             expect(text).to.be.eql("Sign up for free today");
             expect(subText).to.be.eql("Use your work email to make it easier to join or invite your colleagues.");
         });
 
         it('Check terms and policy agreed checkbox label', async () => {
-            const termsAgreeLabel = await miroSignUpPage.getMiroTermsLabel();
+            const termsAgreeLabel = await miroSignUpPage.termPolicyLabel.getText();
 
             expect(termsAgreeLabel).to.be.eql('I agree to Miro Terms and Privacy Policy.');
         });
 
         it('Check subscribe to miro news label', async () => {
-            const subscribeLabel = await miroSignUpPage.getSubscribeToNewsLabel();
+            const subscribeLabel = await miroSignUpPage.miroNewsLabel.getText();
 
             expect(subscribeLabel).to.be.eql('I agree to receive Miro news and updates.');
         });
@@ -42,8 +42,10 @@ describe('Tests for Sign Up at Miro functionality', () => {
         it('Password less that 8 symbols', async () => {
             const password = config.get('shortPassword');
 
-            await miroSignUpPage.enterPassword(password);
-            const passwordHint = await miroSignUpPage.getPasswordHint();
+            await miroSignUpPage.passwordField.typeKeys(password);
+            await miroSignUpPage.waitForStatusBar();
+
+            const passwordHint = await miroSignUpPage.passwordHint.getText();
 
             expect(passwordHint).to.be.eql('Please use 8+ characters for secure password.')
         });
@@ -51,8 +53,10 @@ describe('Tests for Sign Up at Miro functionality', () => {
         it('Password 8 symbols', async () => {
             const password = config.get('password8Sign');
 
-            await miroSignUpPage.enterPassword(password);
-            const passwordHint = await miroSignUpPage.getPasswordHint();
+            await miroSignUpPage.passwordField.typeKeys(password);
+            await miroSignUpPage.waitForStatusBar();
+
+            const passwordHint = await miroSignUpPage.passwordHint.getText();
 
             expect(passwordHint).to.be.eql('So-so password')
         });
@@ -60,8 +64,10 @@ describe('Tests for Sign Up at Miro functionality', () => {
         it('Week password', async () => {
             const password = config.get('weekPassword');
 
-            await miroSignUpPage.enterPassword(password);
-            const passwordHint = await miroSignUpPage.getPasswordHint();
+            await miroSignUpPage.passwordField.typeKeys(password);
+            await miroSignUpPage.waitForStatusBar();
+
+            const passwordHint = await miroSignUpPage.passwordHint.getText();
 
             expect(passwordHint).to.be.eql('Weak password')
         });
@@ -69,8 +75,9 @@ describe('Tests for Sign Up at Miro functionality', () => {
         it('Good password', async () => {
             const password = config.get('goodPassword');
 
-            await miroSignUpPage.enterPassword(password);
-            const passwordHint = await miroSignUpPage.getPasswordHint();
+            await miroSignUpPage.passwordField.typeKeys(password);
+
+            const passwordHint = await miroSignUpPage.passwordHint.getText();
 
             expect(passwordHint).to.be.eql('Good password')
         });
@@ -78,8 +85,8 @@ describe('Tests for Sign Up at Miro functionality', () => {
         it('Strong password', async () => {
             const password = config.get('password');
 
-            await miroSignUpPage.enterPassword(password);
-            const passwordHint = await miroSignUpPage.getPasswordHint();
+            await miroSignUpPage.passwordField.typeKeys(password);
+            const passwordHint = await miroSignUpPage.passwordHint.getText();
 
             expect(passwordHint).to.be.eql('Great password')
         })
@@ -89,8 +96,8 @@ describe('Tests for Sign Up at Miro functionality', () => {
         it('Incorrect email format', async () => {
             const email = config.get('incorrectEmail');
 
-            await miroSignUpPage.enterEmail(email);
-            await miroSignUpPage.clickSignUpButton();
+            await miroSignUpPage.emailField.typeKeys(email);
+            await miroSignUpPage.signInButton.clickOnButton();
 
             const errors = await miroSignUpPage.getLoginFormErrors();
             expect(errors.emailError).to.be.eql('Enter a valid email address.');
@@ -100,9 +107,9 @@ describe('Tests for Sign Up at Miro functionality', () => {
             const email = config.get('correctEmail');
             const password = config.get('password');
 
-            await miroSignUpPage.enterEmail(email);
-            await miroSignUpPage.enterPassword(password);
-            await miroSignUpPage.clickSignUpButton();
+            await miroSignUpPage.emailField.typeKeys(email);
+            await miroSignUpPage.passwordField.typeKeys(password);
+            await miroSignUpPage.signInButton.clickOnButton();
 
             const errors = await miroSignUpPage.getLoginFormErrors();
             expect(errors.nameError).to.be.eql('Please enter your name.');
@@ -112,11 +119,11 @@ describe('Tests for Sign Up at Miro functionality', () => {
             const name = config.get('testUser');
             const email = config.get('correctEmail');
 
-            await miroSignUpPage.enterEmail(email);
-            await miroSignUpPage.enterUserName(name);
-            await miroSignUpPage.clickMiroTermsCheckbox();
+            await miroSignUpPage.emailField.typeKeys(email);
+            await miroSignUpPage.userNameField.typeKeys(name);
+            await miroSignUpPage.termPolicyCheckBox.selectCheckbox();
 
-            await miroSignUpPage.clickSignUpButton();
+            await miroSignUpPage.signInButton.clickOnButton();
 
             const errors = await miroSignUpPage.getLoginFormErrors();
             expect(errors.passwordError).to.be.eql('Enter your password.');
@@ -127,10 +134,10 @@ describe('Tests for Sign Up at Miro functionality', () => {
             const email = config.get('correctEmail');
             const password = config.get('password');
 
-            await miroSignUpPage.enterEmail(email);
-            await miroSignUpPage.enterUserName(name);
-            await miroSignUpPage.enterPassword(password);
-            await miroSignUpPage.clickSignUpButton();
+            await miroSignUpPage.emailField.typeKeys(email);
+            await miroSignUpPage.userNameField.typeKeys(name);
+            await miroSignUpPage.passwordField.typeKeys(password);
+            await miroSignUpPage.signInButton.clickOnButton();
 
             const errors = await miroSignUpPage.getLoginFormErrors();
             expect(errors.termsError).to.be.eql('Please agree with the Terms to sign up.');
@@ -143,13 +150,13 @@ describe('Tests for Sign Up at Miro functionality', () => {
             const email = generateEmail('cisco', 'com');
             const password = config.get('password');
 
-            await miroSignUpPage.enterUserName(userName);
-            await miroSignUpPage.enterEmail(email);
-            await miroSignUpPage.enterPassword(password);
-            await miroSignUpPage.clickMiroTermsCheckbox();
-            await miroSignUpPage.clickSubscribeToNewsLabel();
+            await miroSignUpPage.userNameField.typeKeys(userName);
+            await miroSignUpPage.emailField.typeKeys(email);
+            await miroSignUpPage.passwordField.typeKeys(password);
+            await miroSignUpPage.termPolicyCheckBox.selectCheckbox();
+            await miroSignUpPage.miroNewsCheckBox.selectCheckbox();
 
-            await miroSignUpPage.clickSignUpButton();
+            await miroSignUpPage.signInButton.clickOnButton();
 
             const pageTitle = await checkEmailPage.getPageTitle();
 
@@ -173,13 +180,13 @@ describe('Tests for Sign Up at Miro functionality', () => {
             const email = config.get('correctEmail');
             const password = config.get('password');
 
-            await miroSignUpPage.enterUserName(userName);
-            await miroSignUpPage.enterEmail(email);
-            await miroSignUpPage.enterPassword(password);
-            await miroSignUpPage.clickMiroTermsCheckbox();
-            await miroSignUpPage.clickSubscribeToNewsLabel();
+            await miroSignUpPage.userNameField.typeKeys(userName);
+            await miroSignUpPage.emailField.typeKeys(email);
+            await miroSignUpPage.passwordField.typeKeys(password);
+            await miroSignUpPage.termPolicyCheckBox.selectCheckbox();
+            await miroSignUpPage.miroNewsCheckBox.selectCheckbox();
 
-            await miroSignUpPage.clickSignUpButton();
+            await miroSignUpPage.signInButton.clickOnButton();
 
             const errors = await miroSignUpPage.getLoginFormErrors();
             expect(errors.emailError).to.be.eql('Sorry, this email is already registered');
@@ -191,13 +198,13 @@ describe('Tests for Sign Up at Miro functionality', () => {
             const password = config.get('password');
             const fakeCode = config.get('testCode')
 
-            await miroSignUpPage.enterUserName(userName);
-            await miroSignUpPage.enterEmail(email);
-            await miroSignUpPage.enterPassword(password);
-            await miroSignUpPage.clickMiroTermsCheckbox();
-            await miroSignUpPage.clickSubscribeToNewsLabel();
+            await miroSignUpPage.userNameField.typeKeys(userName);
+            await miroSignUpPage.emailField.typeKeys(email);
+            await miroSignUpPage.passwordField.typeKeys(password);
+            await miroSignUpPage.termPolicyCheckBox.selectCheckbox();
+            await miroSignUpPage.miroNewsCheckBox.selectCheckbox();
 
-            await miroSignUpPage.clickSignUpButton();
+            await miroSignUpPage.signInButton.clickOnButton();
 
             const pageTitle = await checkEmailPage.getPageTitle();
 
