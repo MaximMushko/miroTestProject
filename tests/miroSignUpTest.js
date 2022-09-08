@@ -16,8 +16,8 @@ describe('Tests for Sign Up at Miro functionality', () => {
             const text = await miroSignUpPage.getPageText();
             const subText = await miroSignUpPage.getPageSubText();
 
-            expect(text).to.be.eql("Get started free today");
-            expect(subText).to.be.eql("No credit card required");
+            expect(text).to.be.eql("Sign up for free today");
+            expect(subText).to.be.eql("Use your work email to make it easier to join or invite your colleagues.");
         });
 
         it('Check terms and policy agreed checkbox label', async () => {
@@ -40,7 +40,7 @@ describe('Tests for Sign Up at Miro functionality', () => {
             await miroSignUpPage.enterPassword(password);
             const passwordHint = await miroSignUpPage.getPasswordHint();
 
-            expect(passwordHint).to.be.eql('Please use 8+ characters for secure password')
+            expect(passwordHint).to.be.eql('Please use 8+ characters for secure password.')
         });
 
         it('Password 8 symbols', async () => {
@@ -88,7 +88,7 @@ describe('Tests for Sign Up at Miro functionality', () => {
             await miroSignUpPage.clickSignUpButton();
 
             const errors = await miroSignUpPage.getLoginFormErrors();
-            expect(errors.emailError).to.be.eql('The email you entered is incorrect.');
+            expect(errors.emailError).to.be.eql('Enter a valid email address.');
         })
 
         it('SignUp without required name fields', async () => {
@@ -114,7 +114,7 @@ describe('Tests for Sign Up at Miro functionality', () => {
             await miroSignUpPage.clickSignUpButton();
 
             const errors = await miroSignUpPage.getLoginFormErrors();
-            expect(errors.passwordError).to.be.eql('Please enter your password.');
+            expect(errors.passwordError).to.be.eql('Enter your password.');
         });
 
         it('SignUp without agree of terms', async () => {
@@ -202,7 +202,7 @@ describe('Tests for Sign Up at Miro functionality', () => {
             await checkEmailPage.enterCodeToInputBox(fakeCode)
 
             const codeErrorMessage = await checkEmailPage.getCodeErrorMessage();
-            expect(codeErrorMessage).to.be.eql('Sorry, this code is invalid')
+            expect(codeErrorMessage).to.be.eql('\'Enter a valid code.')
         });
     });
 });

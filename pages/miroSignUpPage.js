@@ -2,8 +2,8 @@ const EC = protractor.ExpectedConditions;
 class MiroSignUpPage {
 
     constructor() {
-        this.pageText = by.css('.signup > h1');
-        this.pageSubText = by.css('.signup > div.ab-signup-usa--free-text')
+        this.pageText = by.css('div.ssp-hide > h1');
+        this.pageSubText = by.css('div.ssp-hide > div.ab-signup-usa--free-text')
         this.userNameField = by.css('#name');
         this.emailField = by.css('#email');
         this.passwordField = by.css('#password');
@@ -17,7 +17,7 @@ class MiroSignUpPage {
         this.miroNewsCheckBox = by.css('#signup-subscribe');
         this.termPolicyLabel = by.css('#signup-error-emptyTerms');
         this.miroNewsLabel = by.css('#signup-subscribe-desc')
-        this.signInButton = by.css('.signup__submit')
+        this.signInButton = by.css('[data-testid="mr-form-signup-btn-start-1"]')
     }
 
     getPageText(){
