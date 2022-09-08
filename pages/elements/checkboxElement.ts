@@ -1,11 +1,10 @@
 import {By} from "selenium-webdriver";
 import {browser, element} from "protractor";
+import WebElement from "./WebElement";
 
-class CheckboxElement {
-    private locator;
-
+class CheckboxElement extends WebElement {
     constructor(by: By){
-        this.locator = by;
+       super(by);
     }
 
     isSelected(){

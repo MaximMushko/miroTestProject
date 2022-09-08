@@ -1,15 +1,18 @@
 import {By} from "selenium-webdriver";
 import {element} from "protractor";
+import WebElement from "./WebElement";
 
-class TextInputElement {
-    private locator;
-
+class TextInputElement extends WebElement {
     constructor(by: By) {
-        this.locator = by;
+        super(by);
     }
 
     async typeKeys(keys: string) {
-        return element(this.locator).sendKeys(keys);
+        await element(this.locator).sendKeys(keys);
+    }
+
+    async getTypedValue() {
+        return element(this.locator).getAttribute('value');
     }
 }
 

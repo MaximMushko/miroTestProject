@@ -6,6 +6,8 @@
     "weekPassword": "12345568",
     "goodPassword": "aa1233547",
     "incorrectEmail": "test",
-    "correctEmail": "mmushko@cisco.com",
+    "correctEmail": "maksim.mushko@codete.com",
+    "existingEmail": "dart-maximus@yandex.ru",
+    "ssoEmail": "mmushko@cisco.com",
     "testCode":"123456"
 }

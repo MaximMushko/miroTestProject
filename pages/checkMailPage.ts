@@ -1,46 +1,22 @@
-import {by, protractor, element, browser} from "protractor";
+import {by, protractor, browser} from "protractor";
+import TextElement from "./elements/textElement";
+import TextInputElement from "./elements/textInputElement";
 
 const EC = protractor.ExpectedConditions;
 
 class CheckMailPage {
-    private pageTitle = by.css('.signup>h1');
-    private pageText = by.css('.signup > .signup__subtitle-form');
-    private codeInputBox = by.css('#code');
-    private codeErrorMessage = by.css('#error-general')
-    private attemptsExceededErrorMessage = by.css('#error-attemptsExceeded')
-    private sendCodeAgainLabel = by.css('.signup__footer')
-
-    getPageTitle(){
-        return element(this.pageTitle).getText();
-    }
-
-    getPageText() {
-        return element(this.pageText).getText();
-    }
-
-    checkCodeInputBox() {
-        return element(this.codeInputBox).isDisplayed();
-    }
-
-    enterCodeToInputBox(code: string) {
-        return element(this.codeInputBox).sendKeys(code);
-    }
+    public pageTitle = new TextElement(by.css('.signup>h1'));
+    public pageText = new TextElement(by.css('.signup > .signup__subtitle-form'));
+    public codeInputBox = new TextInputElement(by.css('#code'));
+    public codeErrorMessage = new TextElement(by.css('#error-general'));
+    public attemptsExceededErrorMessage = new TextElement(by.css('#error-attemptsExceeded'));
+    public contactUsLabel = new TextElement(by.css('div.signup__footer:nth-of-type(2)'))
+    public sendCodeAgainLabel = new TextElement(by.css('div.signup__footer:nth-of-type(3)'));
 
     async getCodeErrorMessage(){
-        const message = element(this.codeErrorMessage)
+        const message = this.codeErrorMessage.getWebDriverElement();
         await browser.wait(EC.visibilityOf(message), 1000)
         return message.getText();
-    }
-
-    getAttemptsExceedErrorMessage(){
-        return element(this.attemptsExceededErrorMessage).getText();
-    }
-
-    getContactUsLabel () {
-        return element.all(this.sendCodeAgainLabel).get(0).getText();
-    }
-    getSendCodeAgainLabel(){
-        return element.all(this.sendCodeAgainLabel).get(1).getText();
     }
 }
 

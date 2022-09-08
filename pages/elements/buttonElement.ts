@@ -1,11 +1,10 @@
 import {By} from "selenium-webdriver";
 import {element} from "protractor";
+import WebElement from "./WebElement";
 
-class ButtonElement {
-    private locator;
-
+class ButtonElement extends WebElement {
     constructor(by: By) {
-        this.locator = by;
+        super(by);
     }
 
     async clickOnButton(){

@@ -10,10 +10,9 @@
     "sourceMap": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "outDir": "out",
+    "outDir": "dist",
     "watch": true,
-    "lib": ["es5", "dom", "es2015"],
-    "types": ["mocha", "protractor"]
+    "lib": ["es5", "dom", "es2015"]
   },
   "compileOnSave": true,
   "include": ["./pages/**/*.ts", "./tests/*.ts", "./utils/utils.ts"],

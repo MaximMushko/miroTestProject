@@ -23,6 +23,7 @@ class MiroSignUpPage {
     public termPolicyLabel = new TextElement(by.css('#signup-error-emptyTerms'));
     public miroNewsLabel = new TextElement(by.css('#signup-subscribe-desc'))
     public signInButton = new ButtonElement(by.css('[data-testid="mr-form-signup-btn-start-1"]'));
+    public signUpWithGoogle = new ButtonElement(by.css('#a11y-signup-with-google'));
 
     async waitForStatusBar(){
         await browser.wait(EC.visibilityOf(element(this.passwordStatusBar)), 2000)
@@ -35,6 +36,10 @@ class MiroSignUpPage {
             passwordError: await this.passwordErrorMessage.getText(),
             termsError: await this.termsError.getText()
         }
+    }
+
+    async waitForDuplicateEmailErrorMessage() {
+        await browser.wait(EC.visibilityOf(this.emailErrorMessage.getWebDriverElement()), 2000)
     }
 }
 

@@ -5,10 +5,14 @@ import config from "config";
 import MiroSignUpPage from '../pages/miroSignUpPage';
 import CheckEmailPage from '../pages/checkMailPage';
 import {generateEmail} from '../utils/utils';
+import SingleSignOnPage from "../pages/singleSignOnPage";
+import SocialtosPage from "../pages/socialtosPage";
 const { expect } = chai;
 
 const miroSignUpPage = new MiroSignUpPage();
 const checkEmailPage = new CheckEmailPage();
+const ssoPage = new SingleSignOnPage();
+const socialtosPage = new SocialtosPage();
 
 describe('Tests for Sign Up at Miro functionality', () => {
 
@@ -158,26 +162,32 @@ describe('Tests for Sign Up at Miro functionality', () => {
 
             await miroSignUpPage.signInButton.clickOnButton();
 
-            const pageTitle = await checkEmailPage.getPageTitle();
+            const pageTitle = await checkEmailPage.pageTitle.getText();
 
             expect(pageTitle).to.be.eql('Check your email')
 
-            const pageSubText = await checkEmailPage.getPageText();
+            const pageSubText = await checkEmailPage.pageText.getText();
 
             expect(pageSubText).to.be.eql(`We've sent you a six-digit confirmation code to ${email}. Please enter it below to confirm your email address.`)
 
-            const enterCodeFieldIsDisplayed = await checkEmailPage.checkCodeInputBox();
+            const enterCodeFieldIsDisplayed = await checkEmailPage.codeInputBox.isDisplayed();
             expect(enterCodeFieldIsDisplayed).to.be.true
 
-            const sendCodeAgainLabel = await checkEmailPage.getSendCodeAgainLabel();
+            const sendCodeAgainLabel = await checkEmailPage.sendCodeAgainLabel.getText();
 
             expect(sendCodeAgainLabel).to.be.eql('Send code again or find more information in Help Center.')
-            //we are not able to test the real code flow with a fake test email. It could be tested manually or by using special accaunt
+
+            const contactUs = await checkEmailPage.contactUsLabel.getText();
+
+            // this assertion will fail. I have no idea why the link is hidden. For me, it's a potential defect
+            expect(contactUs).to.be.eql('If you still haven\'t received the email, please contact us')
+
+            //we are not able to test the real code flow with a fake test email. It could be tested manually or by using special account
         });
 
         it('Try to register a new user with the same email', async () => {
             const userName = config.get('testUser');
-            const email = config.get('correctEmail');
+            const email = config.get('existingEmail');
             const password = config.get('password');
 
             await miroSignUpPage.userNameField.typeKeys(userName);
@@ -187,6 +197,7 @@ describe('Tests for Sign Up at Miro functionality', () => {
             await miroSignUpPage.miroNewsCheckBox.selectCheckbox();
 
             await miroSignUpPage.signInButton.clickOnButton();
+            await miroSignUpPage.waitForDuplicateEmailErrorMessage()
 
             const errors = await miroSignUpPage.getLoginFormErrors();
             expect(errors.emailError).to.be.eql('Sorry, this email is already registered');
@@ -206,14 +217,62 @@ describe('Tests for Sign Up at Miro functionality', () => {
 
             await miroSignUpPage.signInButton.clickOnButton();
 
-            const pageTitle = await checkEmailPage.getPageTitle();
+            const pageTitle = await checkEmailPage.pageTitle.getText();
 
             expect(pageTitle).to.be.eql('Check your email')
 
-            await checkEmailPage.enterCodeToInputBox(fakeCode)
+            await checkEmailPage.codeInputBox.typeKeys(fakeCode)
 
             const codeErrorMessage = await checkEmailPage.getCodeErrorMessage();
             expect(codeErrorMessage).to.be.eql('Enter a valid code.')
+        });
+
+        it('Sign Up using SSO account', async () => {
+            const userName = config.get('testUser');
+            const email = config.get('ssoEmail');
+            const password = config.get('password');
+
+            await miroSignUpPage.userNameField.typeKeys(userName);
+            await miroSignUpPage.emailField.typeKeys(email);
+            await miroSignUpPage.passwordField.typeKeys(password);
+            await miroSignUpPage.termPolicyCheckBox.selectCheckbox();
+            await miroSignUpPage.miroNewsCheckBox.selectCheckbox();
+
+            await miroSignUpPage.signInButton.clickOnButton();
+
+            const pageTitle = await ssoPage.pageTitle.getText();
+            expect(pageTitle).to.be.eql('Single Sign On');
+
+            const pageText = await ssoPage.pageText.getText();
+            expect(pageText).to.be.eql('Your organization uses Single Sign On (SSO) with Miro. Please sign in using your SSO credentials.');
+
+            const ssoEmail = await ssoPage.emailInputBox.getTypedValue();
+            expect(ssoEmail).to.be.eql(email);
+
+            ssoPage.continueButton.isDisplayed();
+            // we are not going to click on Continue SSO button in this case
+
+            ssoPage.signInWithoutSSO.clickOnLink();
+            expect(await browser.getCurrentUrl()).contains('https://miro.com/login/');
+        });
+
+        it('Sing Up using Google Account', async () => {
+            const isGoogleSignUpDisplayed = await miroSignUpPage.signUpWithGoogle.isDisplayed();
+
+            expect(isGoogleSignUpDisplayed).to.be.true;
+            await miroSignUpPage.signUpWithGoogle.clickOnButton();
+
+            const pageText = await socialtosPage.pageTitle.getText();
+            expect(pageText).to.be.eql('Review the\nTerms to sign up');
+
+            socialtosPage.miroTermsCheckbox.selectCheckbox();
+            socialtosPage.newSubscriptionCheckbox.selectCheckbox();
+
+            const isContinueButtonDisplayed = await socialtosPage.continueButton.isDisplayed();
+            expect(isContinueButtonDisplayed).to.be.true;
+            socialtosPage.continueButton.clickOnButton();
+
+            expect(await browser.getCurrentUrl()).contains('https://accounts.google.com/');
         });
     });
 });
